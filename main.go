@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io"
 	"os"
@@ -9,16 +10,28 @@ import (
 )
 
 func printUsage() {
-	fmt.Println("Usage: mask-to-cidr MASK")
+	fmt.Fprint(os.Stderr, `Usage: mask-to-cidr [MASK]
+Read from STDIN when MASK is not provided as an argument.
+
+Flags:
+`)
+	flag.PrintDefaults()
 	os.Exit(1)
 }
 
 func printInvalid(input string) {
-	fmt.Printf("Invalid input '%s'\n", input)
+	fmt.Fprintf(os.Stderr, "Invalid input '%s'\n", input)
 	os.Exit(1)
 }
 
 func main() {
+	flag.Usage = printUsage
+	help := flag.Bool("h", false, "print help")
+	flag.Parse()
+	if *help {
+		printUsage()
+		return
+	}
 	if len(os.Args) > 2 {
 		printUsage()
 		return
