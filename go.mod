@@ -1,3 +1,3 @@
-module github.com/t-hg/mask-to-cidr
+module github.com/tobiashort/mask-to-cidr
 
 go 1.19
